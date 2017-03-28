@@ -71,4 +71,25 @@ describe('Result', () => {
     expect(stringified_err.err()).to.equal('Some error message');
   });
 
+  it('and() returns argument if receiver is Ok, otherwise receiver', () => {
+    const ok_1: IResult<number,Error> = new Ok<number,Error>(1);
+    const ok_2: IResult<number,Error> = new Ok<number,Error>(2);
+    const err: IResult<number,Error> = new Err<number,Error>(new Error('Some error message'));
+
+    expect(ok_1.and(ok_2)).to.equal(ok_2);
+    expect(ok_2.and(ok_1)).to.equal(ok_1);
+    expect(err.and(ok_1).isErr()).to.equal(true);
+    expect(err.and(ok_2).isErr()).to.equal(true);
+  });
+
+  it('andThen() returns result of op() if receiver is Ok, otherwise receiver', () => {
+    const ok_1: IResult<number,Error> = new Ok<number,Error>(1);
+    const ok_2: IResult<number,Error> = new Ok<number,Error>(2);
+    const err: IResult<number,Error> = new Err<number,Error>(new Error('Some error message'));
+
+    expect(ok_1.andThen((value: number) => { return ok_2; })).to.equal(ok_2);
+    expect(ok_2.andThen((value: number) => { return ok_1; })).to.equal(ok_1);
+    expect(ok_2.andThen((value: number) => { return err; }).isErr()).to.equal(true);
+  });
+
 });

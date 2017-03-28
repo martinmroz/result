@@ -26,9 +26,17 @@ export interface IResult<T, E> {
    */
   mapErr<F>(op: (error: E) => F): IResult<T, F>;
 
+  /**
+   * Returns `res` if the receiver is `Ok`, otherwise returns the `Err` value of
+   * the receiver.
+   */
   and<U>(res: IResult<U, E>): IResult<U, E>;
-  
-  and_then<U>(op: (value: T) => IResult<U, E>): IResult<U, E>;
+
+  /**
+   * Invokes `op` if the receiver is `Ok`, returning the result.
+   * If the receiver is `Err`, returns the `Err` value of the receiver.
+   */
+  andThen<U>(op: (value: T) => IResult<U, E>): IResult<U, E>;
 
   unwrap(): T;
   
@@ -80,7 +88,7 @@ export class Ok<T, E> implements IResult<T, E> {
     return res;
   }
 
-  and_then<U>(op: (value: T) => IResult<U, E>): IResult<U, E> {
+  andThen<U>(op: (value: T) => IResult<U, E>): IResult<U, E> {
     return op(this.value);
   }
 
@@ -142,7 +150,7 @@ export class Err<T, E> implements IResult<T, E> {
     return new Err<U, E>(this.value);
   }
 
-  and_then<U>(op: (value: T) => IResult<U, E>): IResult<U, E> {
+  andThen<U>(op: (value: T) => IResult<U, E>): IResult<U, E> {
     return new Err<U, E>(this.value);
   }
 
