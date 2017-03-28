@@ -38,12 +38,28 @@ export interface IResult<T, E> {
    */
   andThen<U>(op: (value: T) => IResult<U, E>): IResult<U, E>;
 
+  /**
+   * Unwraps the result, yielding the contents of the receiver if `Ok`.
+   * Throws an exception if the receiver is an `Err`.
+   */
   unwrap(): T;
   
+  /**
+   * Unwraps the result, yielding the contents of the receiver if `Err`.
+   * Throws an exception if the receiver is an `Ok`.
+   */
   unwrapErr(): E;
-  
+
+  /**
+   * Unwraps a result, yielding the content if the receiver is `Ok`.
+   * If the receiver is an `Err`, returns `outherwise`.
+   */
   unwrapOr(otherwise: T): T;
-  
+
+  /**
+   * Unwraps a result, yielding the content if the receiver is `Ok`.
+   * If the receiver is an `Err`, returns the result of invoking the parameter.
+   */
   unwrapOrElse(otherwise: (error: E) => T): T;
 
 }
@@ -97,7 +113,7 @@ export class Ok<T, E> implements IResult<T, E> {
   }
 
   unwrapErr(): E {
-    throw 'Attempting to unwrap error on Ok Result.';
+    throw new Error('Attempting to unwrap error on Ok Result.');
   }
 
   unwrapOr(otherwise: T): T {
@@ -155,7 +171,7 @@ export class Err<T, E> implements IResult<T, E> {
   }
 
   unwrap(): T {
-    throw 'Attempting to unwrap Err Result.';
+    throw new Error('Attempting to unwrap Err Result.');
   }
 
   unwrapErr(): E {

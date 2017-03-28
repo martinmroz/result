@@ -1,5 +1,5 @@
 {
-  "name": "result",
+  "name": "rusty-result-type",
   "version": "1.0.0",
   "description": "A Result <T,E> type for TypeScript based on that of Rust.",
   "main": "dist/index.js",
