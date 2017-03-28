@@ -1,0 +1,35 @@
+{
+  "name": "result",
+  "version": "1.0.0",
+  "description": "A Result <T,E> type for TypeScript based on that of Rust.",
+  "main": "dist/index.js",
+  "typings": "lib/index",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "prepublish": "tsc -p .",
+    "test": "mocha -r ts-node/register test/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/martinmroz/result.git"
+  },
+  "keywords": [
+    "result"
+  ],
+  "author": "Martin Mroz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/martinmroz/result/issues"
+  },
+  "homepage": "https://github.com/martinmroz/result#readme",
+  "devDependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.40",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "ts-node": "^3.0.2",
+    "typescript": "^2.2.2"
+  }
+}
